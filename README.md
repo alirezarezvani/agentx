@@ -41,7 +41,7 @@ Each article has its own directory with both TypeScript and Python implementatio
 # Clone the repo
 git clone https://github.com/rezarezvani/agent-builders-playbook.git
 cd agent-builders-playbook
-
+```
 # Start with Article 1
 cd 01-first-agent/typescript
 npm install

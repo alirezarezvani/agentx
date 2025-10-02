@@ -1,0 +1,30 @@
+{
+  "name": "first-agent-typescript",
+  "version": "1.0.0",
+  "description": "Your first Claude agent - file reader with autonomous tool use",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "dev": "tsx watch src/index.ts"
+  },
+  "keywords": [
+    "claude",
+    "ai-agents",
+    "anthropic",
+    "typescript"
+  ],
+  "author": "Reza Rezvani",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
