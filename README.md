@@ -23,7 +23,7 @@ By the end of this series, you'll have built 6 production-ready agents:
 *Build core skills and your first working agents*
 
 - **[Article 1: Your First Autonomous Agent](./01-first-agent/)** - Setup, mental models, file reader agent
-- **Article 2: Documentation Generator** *(Coming Soon)* - Multi-tool orchestration
+- **[Article 2: Documentation Generator](./02-documentation-generator/)** - Multi-tool orchestration
 - **Article 3: Memory & Checkpoints** *(Coming Soon)* - Persistent state and failure recovery
 
 ### Phase 2: Advanced Patterns (Articles 4-5)
