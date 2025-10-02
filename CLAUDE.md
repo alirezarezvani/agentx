@@ -128,6 +128,9 @@ pip install -r requirements.txt  # Install dependencies
 python main.py                   # Run the agent
 pytest                          # Run tests (Articles 4+)
 ```
+## Author:
+
+Alireza Rezvani
 
 ## License
 
