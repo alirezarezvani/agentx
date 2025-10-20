@@ -11,7 +11,7 @@ const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-// Define the read_file tool
+// Define the tools
 const tools: Anthropic.Tool[] = [
   {
     name: 'read_file',
@@ -31,6 +31,24 @@ const tools: Anthropic.Tool[] = [
       required: ['file_path'],
     },
   },
+  {
+    name: 'list_files',
+    description:
+      'List all files and directories in a specified directory. ' +
+      'Returns an array of file and directory names. ' +
+      'Use this when you need to see what files exist in a directory.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        directory: {
+          type: 'string',
+          description:
+            'The directory path to list files from (relative to the project root)',
+        },
+      },
+      required: ['directory'],
+    },
+  },
 ];
 
 // Execute tool function
@@ -42,6 +60,16 @@ function executeTool(toolName: string, toolInput: any): string {
       return content;
     } catch (error: any) {
       return `Error reading file: ${error.message}`;
+    }
+  }
+
+  if (toolName === 'list_files') {
+    try {
+      const dirPath = path.resolve(toolInput.directory);
+      const files = fs.readdirSync(dirPath);
+      return JSON.stringify(files, null, 2);
+    } catch (error: any) {
+      return `Error listing files: ${error.message}`;
     }
   }
 
@@ -122,11 +150,14 @@ async function main() {
       'Read the package.json file and tell me what dependencies I have installed'
     );
 
-    // Example 2: Try another question
-    // await runAgent('Read the tsconfig.json file and explain what it does');
+    // Example 2: Read and explain tsconfig
+    await runAgent('Read the tsconfig.json file and explain what it does');
 
-    // Example 3: Read a non-existent file (error handling)
-    // await runAgent('Read the missing.txt file');
+    // Example 3: Read and explain README
+    await runAgent('Read the README.md file and explain what it does');
+
+    // Example 4: List files in a directory
+    await runAgent('List all files in the src directory and describe what you see');
   } catch (error) {
     console.error('Error running agent:', error);
   }
