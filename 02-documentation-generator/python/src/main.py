@@ -128,26 +128,32 @@ def run_agent(user_message: str):
     while response.stop_reason == "tool_use" and iterations < max_iterations:
         iterations += 1
 
-        tool_use = next((block for block in response.content if block.type == "tool_use"), None)
+        # Extract ALL tool use blocks from the response
+        tool_use_blocks = [block for block in response.content if block.type == "tool_use"]
 
-        if not tool_use:
+        if not tool_use_blocks:
             break
 
-        print(f"\n🔧 Agent using tool: {tool_use.name}")
-        print(f"   Input: {tool_use.input}")
+        # Execute all tool uses and collect results
+        tool_results = []
 
-        tool_result = execute_tool(tool_use.name, tool_use.input)
+        for tool_use in tool_use_blocks:
+            print(f"\n🔧 Agent using tool: {tool_use.name}")
+            print(f"   Input: {tool_use.input}")
 
+            tool_result = execute_tool(tool_use.name, tool_use.input)
+
+            tool_results.append({
+                "type": "tool_result",
+                "tool_use_id": tool_use.id,
+                "content": tool_result,
+            })
+
+        # Add assistant response and all tool results to messages
         messages.append({"role": "assistant", "content": response.content})
         messages.append({
             "role": "user",
-            "content": [
-                {
-                    "type": "tool_result",
-                    "tool_use_id": tool_use.id,
-                    "content": tool_result,
-                }
-            ],
+            "content": tool_results,
         })
 
         response = client.messages.create(
