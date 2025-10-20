@@ -128,26 +128,31 @@ def run_agent(user_message: str):
     while response.stop_reason == "tool_use" and iterations < max_iterations:
         iterations += 1
 
-        tool_use = next((block for block in response.content if block.type == "tool_use"), None)
+        # Get ALL tool use blocks, not just the first one
+        tool_uses = [block for block in response.content if block.type == "tool_use"]
 
-        if not tool_use:
+        if not tool_uses:
             break
 
-        print(f"\n🔧 Agent using tool: {tool_use.name}")
-        print(f"   Input: {tool_use.input}")
+        # Execute all tools and collect results
+        tool_results = []
+        for tool_use in tool_uses:
+            print(f"\n🔧 Agent using tool: {tool_use.name}")
+            print(f"   Input: {tool_use.input}")
 
-        tool_result = execute_tool(tool_use.name, tool_use.input)
+            tool_result = execute_tool(tool_use.name, tool_use.input)
 
+            tool_results.append({
+                "type": "tool_result",
+                "tool_use_id": tool_use.id,
+                "content": tool_result,
+            })
+
+        # Send all tool results back in one message
         messages.append({"role": "assistant", "content": response.content})
         messages.append({
             "role": "user",
-            "content": [
-                {
-                    "type": "tool_result",
-                    "tool_use_id": tool_use.id,
-                    "content": tool_result,
-                }
-            ],
+            "content": tool_results,
         })
 
         response = client.messages.create(

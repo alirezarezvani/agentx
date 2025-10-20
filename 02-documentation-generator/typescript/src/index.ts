@@ -141,27 +141,33 @@ async function runAgent(userMessage: string) {
   while (response.stop_reason === 'tool_use' && iterations < maxIterations) {
     iterations++;
 
-    const toolUseBlock = response.content.find(
+    // Get ALL tool use blocks, not just the first one
+    const toolUseBlocks = response.content.filter(
       (block): block is Anthropic.ToolUseBlock => block.type === 'tool_use'
     );
 
-    if (!toolUseBlock) break;
+    if (toolUseBlocks.length === 0) break;
 
-    console.log(`\n🔧 Agent using tool: ${toolUseBlock.name}`);
-    console.log(`   Input: ${JSON.stringify(toolUseBlock.input, null, 2)}`);
+    // Execute all tools and collect results
+    const toolResults: Anthropic.ToolResultBlockParam[] = [];
+    for (const toolUseBlock of toolUseBlocks) {
+      console.log(`\n🔧 Agent using tool: ${toolUseBlock.name}`);
+      console.log(`   Input: ${JSON.stringify(toolUseBlock.input, null, 2)}`);
 
-    const toolResult = executeTool(toolUseBlock.name, toolUseBlock.input);
+      const toolResult = executeTool(toolUseBlock.name, toolUseBlock.input);
 
+      toolResults.push({
+        type: 'tool_result',
+        tool_use_id: toolUseBlock.id,
+        content: toolResult,
+      });
+    }
+
+    // Send all tool results back in one message
     messages.push({ role: 'assistant', content: response.content });
     messages.push({
       role: 'user',
-      content: [
-        {
-          type: 'tool_result',
-          tool_use_id: toolUseBlock.id,
-          content: toolResult,
-        },
-      ],
+      content: toolResults,
     });
 
     response = await client.messages.create({
