@@ -6,14 +6,15 @@ A hands-on, 7-part series for mid-to-senior engineers who want to build real AI 
 
 ## 🎯 What You'll Build
 
-By the end of this series, you'll have built 6 production-ready agents:
+By the end of this series, you'll have built production-ready agents including:
 
-1. **Documentation Generator** - Reads codebases and writes README files
-2. **Test Suite Builder** - Generates Jest/Vitest tests automatically
-3. **Next.js App Scaffolder** - Creates full project structures with routing and components
-4. **Content Operations Agent** - Editorial workflows and markdown processing
-5. **Refactoring Assistant** - Code migrations (Class → Hooks, CommonJS → ESM)
-6. **Production Log Analyzer** - Parses logs, finds patterns, identifies root causes
+1. **File Reader Agent** - Autonomous tool use and agent loops
+2. **Documentation Generator** - Reads codebases and writes README files
+3. **MCP-Powered Agents** - Browser automation, persistent memory, doc lookup via MCP servers
+4. **Test Suite Builder** - Generates Jest/Vitest tests automatically
+5. **Next.js App Scaffolder** - Creates full project structures with routing and components
+6. **Content Operations Agent** - Editorial workflows and markdown processing
+7. **Refactoring Assistant** - Code migrations (Class → Hooks, CommonJS → ESM)
 
 ---
 
@@ -32,11 +33,12 @@ By the end of this series, you'll have built 6 production-ready agents:
 - **Article 4: Test Suite Builder** *(Coming Soon)* - Sub-agents and task decomposition
 - **Article 5: Next.js Scaffolder** *(Coming Soon)* - Supabase memory, multi-agent coordination
 
-### Phase 3: Real-World Mastery (Articles 6-7)
-*Specialized agents and production deployment*
+### Phase 3: Real-World Mastery (Articles 6-8)
+*Specialized agents, MCP integration, and production deployment*
 
 - **Article 6: Specialized Agents** *(Coming Soon)* - Content ops + refactoring patterns
 - **Article 7: Production Deployment** *(Coming Soon)* - Docker, CI/CD, monitoring
+- **[Article 8: MCP Server Integration](./08-mcp-integration/)** - Extend agents with browser automation, memory, and doc lookup
 
 ---
 
@@ -72,6 +74,7 @@ npm start
 - python-dotenv
 
 ### Later Articles
+- Model Context Protocol / MCP (Article 8)
 - Next.js (Article 5)
 - Supabase (Articles 5-6)
 - Docker (Article 7)
@@ -104,6 +107,7 @@ Follow Articles 1→7 in order. Each builds on previous concepts.
 ### Standalone Path (For experienced developers)
 - Want to build a specific agent? Jump to that article
 - Need memory patterns? Start with Article 3
+- Want browser automation or external tools? Go to Article 8 (MCP Integration)
 - Production deployment? Go straight to Article 7
 
 ---
